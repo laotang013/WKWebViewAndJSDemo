@@ -215,8 +215,8 @@
 				TargetAttributes = {
 					C96F3CC81F70B36500CADC67 = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = 3K43G3CQ7U;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = WU2WFZ2B66;
+						ProvisioningStyle = Manual;
 					};
 					C96F3CE11F70B36500CADC67 = {
 						CreatedOnToolsVersion = 8.3;
@@ -437,12 +437,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 3K43G3CQ7U;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = WU2WFZ2B66;
 				INFOPLIST_FILE = WKWebViewDemoWithJS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = het.WKWebViewDemoWithJS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "85042888-e5cd-4e6f-a0bf-8789d9c0bd45";
+				PROVISIONING_PROFILE_SPECIFIER = developAll;
 			};
 			name = Debug;
 		};
@@ -450,12 +453,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 3K43G3CQ7U;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = WU2WFZ2B66;
 				INFOPLIST_FILE = WKWebViewDemoWithJS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = het.WKWebViewDemoWithJS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "85042888-e5cd-4e6f-a0bf-8789d9c0bd45";
+				PROVISIONING_PROFILE_SPECIFIER = developAll;
 			};
 			name = Release;
 		};
@@ -524,6 +530,7 @@
 				C96F3CF81F70B36500CADC67 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C96F3CF91F70B36500CADC67 /* Build configuration list for PBXNativeTarget "WKWebViewDemoWithJSTests" */ = {
 			isa = XCConfigurationList;
@@ -532,6 +539,7 @@
 				C96F3CFB1F70B36500CADC67 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C96F3CFC1F70B36500CADC67 /* Build configuration list for PBXNativeTarget "WKWebViewDemoWithJSUITests" */ = {
 			isa = XCConfigurationList;
@@ -540,6 +548,7 @@
 				C96F3CFE1F70B36500CADC67 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -121,6 +121,26 @@
     [self.javascriptInterfaces setValue:interface forKey:name];
 
 }
+//去掉空格
+- (NSString *)removeSpaceAndNewline:(NSString *)str
+{
+    NSString *temp = [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSString *text = [temp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet ]];
+    return text;
+}
+//字典转为json数据
+- (NSString *)toJsonStringWithDictionary:(NSDictionary *)dictionary{
+    NSError * err;
+    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+                                                        options:NSJSONWritingPrettyPrinted
+                                                          error:&err];
+    if (err) {
+        return nil;
+    }
+    NSString * json = [[NSString alloc] initWithData:jsonData
+                                            encoding:NSUTF8StringEncoding];
+    return json;
+}
 #pragma mark - WKNavigationDelegate
 // 开始导航跳转时会回调
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
@@ -134,12 +154,66 @@
 // 导航完成时，会回调（也就是页面载入完成了）
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation { // 类似 UIWebView 的 －webViewDidFinishLoad:
     NSLog(@"页面加载完成");
-    NSString *str = [NSString stringWithFormat:@"setLocation('%@')",@"传值给H5"];//[HETUserInfo userInfo].accessToken
-    [webView evaluateJavaScript:str completionHandler:^(id _Nullable response, NSError * _Nullable error) {
-        
+    NSDictionary *dataJson = @{@"code":@100,@"description":@"未登录，获取token",@"data":@{@"accessToken":@"1111"}};
+    NSString *dataStr =[self convertToJsonData:dataJson];
+    NSString *setJsonData = [NSString stringWithFormat:@"setJsonData('%@')",dataStr];
+    [self.wkWebView evaluateJavaScript:setJsonData completionHandler:^(id _Nullable value, NSError * _Nullable error) {
+        NSLog(@"error: %@",error);
     }];
+}
+
+- (NSString *)dictionaryToJson:(NSDictionary *)dic {
+    
+    NSError *parseError = nil;
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
+    
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
 }
+- (NSString *)convertToJsonData:(NSDictionary *)dict{
+    
+    NSError *error;
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
+    
+    NSString *jsonString;
+    
+    if (!jsonData) {
+        
+        NSLog(@"%@",error);
+        
+    }else{
+        
+        jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        
+    }
+    
+    NSMutableString *mutStr = [NSMutableString stringWithString:jsonString];
+    
+    NSRange range = {0,jsonString.length};
+    
+    //去掉字符串中的空格
+    
+    [mutStr replaceOccurrencesOfString:@" " withString:@"" options:NSLiteralSearch range:range];
+    
+    NSRange range2 = {0,mutStr.length};
+    
+    //去掉字符串中的换行符
+    
+    [mutStr replaceOccurrencesOfString:@"\n" withString:@"" options:NSLiteralSearch range:range2];
+    
+    //替换掉网址的\转义    \/  替换为 /
+    
+    [mutStr replaceOccurrencesOfString:@"\\/" withString:@"/" options:NSLiteralSearch range:NSMakeRange(0,mutStr.length)];
+    
+    return mutStr;
+    
+}
+
+
+
+
 // 类型，在请求先判断能不能跳转（请求） 请求开始前，会先调用此代理方法
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
    // 类似 UIWebView 的 -webView: shouldStartLoadWithRequest: navigationType:
